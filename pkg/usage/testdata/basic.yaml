@@ -91,6 +91,7 @@ commands:
         positional:
             - No completion
             - Has choices
+            - No completion
     - name: no-completion
       description: Command whose positionals have no completion
 documentation:

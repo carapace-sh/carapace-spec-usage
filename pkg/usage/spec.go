@@ -311,7 +311,7 @@ func newFlag(base command.Flag, short, long string, hidden bool) command.Flag {
 // convertArgs converts positional arguments. carapace only knows positionals
 // through their completions, so each argument becomes one entry in
 // Completion.Positional (or PositionalAny when variadic). Documentation is
-// aligned with the same list.
+// collected in parallel so the two lists stay indexed by declaration order.
 func (c *converter) convertArgs(cmd *command.Command, sc *SpecCommand) {
 	var (
 		positional    [][]string
@@ -332,19 +332,16 @@ func (c *converter) convertArgs(cmd *command.Command, sc *SpecCommand) {
 		positionalDoc = append(positionalDoc, argDescription(arg))
 	}
 
-	if len(positional) > 0 {
-		// Trailing positionals without a completion carry no information and
-		// would only add noise. Earlier empty entries are kept because the list
-		// is index-aligned: dropping one would shift later completions onto the
-		// wrong argument.
-		end := len(positional)
-		for end > 0 && len(positional[end-1]) == 0 {
-			end--
-		}
-		if end > 0 {
-			cmd.Completion.Positional = positional[:end]
-			cmd.Documentation.Positional = positionalDoc[:end]
-		}
+	if end := lastNonEmpty(positional); end > 0 {
+		// Trailing entries without a completion carry no information. Earlier
+		// empty entries are kept because the list is index-aligned: dropping one
+		// would shift later completions onto the wrong argument.
+		cmd.Completion.Positional = positional[:end]
+	}
+	if end := lastNonEmptyString(positionalDoc); end > 0 {
+		// Documentation is indexed by declaration order, independent of the
+		// completion list, and is kept for arguments without a completion too.
+		cmd.Documentation.Positional = positionalDoc[:end]
 	}
 }
 
@@ -557,4 +554,23 @@ func set(values []string) map[string]bool {
 		result[value] = true
 	}
 	return result
+}
+
+// lastNonEmpty returns the length of values without its trailing empty entries.
+func lastNonEmpty(values [][]string) int {
+	end := len(values)
+	for end > 0 && len(values[end-1]) == 0 {
+		end--
+	}
+	return end
+}
+
+// lastNonEmptyString returns the length of values without its trailing empty
+// strings.
+func lastNonEmptyString(values []string) int {
+	end := len(values)
+	for end > 0 && values[end-1] == "" {
+		end--
+	}
+	return end
 }

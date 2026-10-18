@@ -50,11 +50,12 @@ carapace YAML
   they appear in `hidden_aliases`/`hidden_short_aliases`. A `negate` becomes an
   additional hidden boolean flag.
 - `convertArgs` maps positional args to `Completion.Positional` (and
-  `Completion.PositionalAny` for a variadic), with aligned
-  `Documentation.Positional`. carapace only knows positionals through their
-  completions, so an arg without one still occupies a slot (an empty action) when
-  a later arg has a completion. Trailing empty entries carry no information and
-  are trimmed; if every positional is empty the keys are omitted.
+  `Completion.PositionalAny` for a variadic). carapace only knows positionals
+  through their completions, so an arg without one still occupies a slot (an
+  empty action) when a later arg has a completion; trailing empty completions
+  are trimmed. `Documentation.Positional` is indexed by declaration order and
+  kept independently, so arguments without a completion still carry their
+  documentation. Each list is omitted entirely when it has no entries.
 - `argCompletion` combines `choices` and the resolved `complete` node.
   `completer` mirrors usage's lookup order: inline `complete`, then the spec's
   top-level map, then the command's map, each keyed by the lowercased arg name.
