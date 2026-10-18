@@ -1,0 +1,290 @@
+{
+  "name": "mise",
+  "bin": "mise",
+  "about": "Dev tools, env vars, and tasks in one CLI",
+  "complete": {
+    "task": {"run": "mise tasks ls --complete", "descriptions": true},
+    "tool": {"run": "mise search --complete {{words[CURRENT]}}"},
+    "dir": {"type_": "dir"},
+    "file": {"type_": "file"}
+  },
+  "cmd": {
+    "name": "",
+    "help": "Dev tools, env vars, and tasks in one CLI",
+    "full_cmd": [],
+    "subcommands": {
+      "install": {
+        "name": "install",
+        "help": "Install a tool version",
+        "help_long": "Install a tool version\n\nInstalls a tool version to ~/.local/share/mise/installs",
+        "full_cmd": ["install"],
+        "aliases": ["i"],
+        "subcommands": {},
+        "args": [
+          {
+            "name": "TOOL",
+            "help": "Tools to install",
+            "required": false,
+            "var": true,
+            "hide": false
+          }
+        ],
+        "flags": [
+          {
+            "name": "force",
+            "help": "Force the installation",
+            "short": ["f"],
+            "long": ["force"],
+            "hide": false,
+            "global": false
+          }
+        ],
+        "examples": [
+          {"code": "mise install node@24", "help": "Install node 24", "lang": ""}
+        ]
+      },
+      "use": {
+        "name": "use",
+        "help": "Use a tool version",
+        "full_cmd": ["use"],
+        "help_heading": "Tool management",
+        "subcommands": {},
+        "args": [],
+        "flags": [],
+        "aliases": []
+      },
+      "activate": {
+        "name": "activate",
+        "help": "Print the script to activate mise",
+        "full_cmd": ["activate"],
+        "subcommands": {},
+        "args": [
+          {
+            "name": "SHELL",
+            "help": "Shell type to generate the script for",
+            "required": false,
+            "hide": false,
+            "choices": {
+              "choices": ["bash", "fish", "zsh", "pwsh"],
+              "details": [
+                {"value": "bash"},
+                {"value": "fish"},
+                {"value": "zsh"},
+                {"value": "pwsh", "aliases": [{"value": "powershell"}]}
+              ]
+            }
+          }
+        ],
+        "flags": [
+          {
+            "name": "shell",
+            "help": "Shell type to generate the script for",
+            "short": ["s"],
+            "long": ["shell"],
+            "hide": false,
+            "global": false,
+            "arg": {
+              "name": "SHELL",
+              "required": true,
+              "hide": false,
+              "choices": {
+                "choices": ["bash", "elvish", "fish", "nu", "xonsh", "zsh", "pwsh"]
+              }
+            }
+          }
+        ],
+        "aliases": []
+      },
+      "hidden-cmd": {
+        "name": "hidden-cmd",
+        "help": "A hidden command",
+        "full_cmd": ["hidden-cmd"],
+        "hide": true,
+        "subcommands": {},
+        "args": [],
+        "flags": [],
+        "aliases": []
+      }
+    },
+    "args": [
+      {
+        "name": "TASK",
+        "help": "Task to run",
+        "required": false,
+        "hide": false
+      },
+      {
+        "name": "TASK_ARGS",
+        "help": "Task arguments",
+        "required": false,
+        "var": true,
+        "hide": true
+      }
+    ],
+    "flags": [
+      {
+        "name": "cd",
+        "help": "Run as if mise were started in DIR",
+        "short": ["C"],
+        "long": ["cd"],
+        "hide": false,
+        "global": true,
+        "arg": {
+          "name": "DIR",
+          "required": true,
+          "hide": false
+        }
+      },
+      {
+        "name": "env",
+        "help": "Load the mise.<ENV>.toml config files",
+        "short": ["E"],
+        "long": ["env"],
+        "var": true,
+        "hide": false,
+        "global": true,
+        "arg": {
+          "name": "ENV",
+          "required": true,
+          "hide": false
+        }
+      },
+      {
+        "name": "verbose",
+        "help": "Show extra output",
+        "short": ["v"],
+        "long": ["verbose"],
+        "count": true,
+        "hide": false,
+        "global": true
+      },
+      {
+        "name": "quiet",
+        "help": "Suppress non-error messages",
+        "short": ["q"],
+        "long": ["quiet"],
+        "overrides": ["--verbose"],
+        "hide": false,
+        "global": true
+      },
+      {
+        "name": "profile",
+        "help": "Set the profile",
+        "short": ["P"],
+        "long": ["profile"],
+        "var": true,
+        "hide": false,
+        "global": true,
+        "conflicts": ["--env"],
+        "arg": {
+          "name": "PROFILE",
+          "required": true,
+          "hide": false
+        }
+      },
+      {
+        "name": "no-config",
+        "help": "Do not load any config files",
+        "short": [],
+        "long": ["no-config"],
+        "hide": false,
+        "global": false
+      },
+      {
+        "name": "truncate",
+        "help": "Truncate the output",
+        "short": ["t"],
+        "long": ["truncate"],
+        "negate": "--no-truncate",
+        "hide": true,
+        "global": false
+      },
+      {
+        "name": "on-busy-update",
+        "help": "What to do when a tool is busy",
+        "short": [],
+        "long": ["on-busy-update"],
+        "default": ["do-nothing"],
+        "arg": {
+          "name": "ON_BUSY_UPDATE",
+          "required": true,
+          "hide": false,
+          "choices": {
+            "choices": ["wait", "warn", "silent", "do-nothing"]
+          }
+        },
+        "hide": false,
+        "global": false
+      },
+      {
+        "name": "old",
+        "help": "An old flag",
+        "short": [],
+        "long": ["old"],
+        "hidden_aliases": ["legacy"],
+        "hide": false,
+        "global": false
+      },
+      {
+        "name": "poll",
+        "help": "Poll for changes instead of using native file watching",
+        "short": [],
+        "long": ["poll", "force-poll"],
+        "hidden_aliases": ["force-poll"],
+        "hide": false,
+        "global": false,
+        "arg": {
+          "name": "INTERVAL",
+          "required": false,
+          "hide": false
+        }
+      },
+      {
+        "name": "output",
+        "help": "How task output is displayed",
+        "short": [],
+        "long": ["output"],
+        "arg": {
+          "name": "OUTPUT",
+          "required": false,
+          "hide": false
+        },
+        "hide": false,
+        "global": false
+      },
+      {
+        "name": "deprecated-flag",
+        "help": "An old way of doing things",
+        "short": [],
+        "long": ["deprecated-flag"],
+        "deprecated": "use --new-flag instead",
+        "hide": false,
+        "global": false
+      },
+      {
+        "name": "help",
+        "help": "Print help",
+        "short": ["h"],
+        "long": ["help"],
+        "hide": false,
+        "global": true
+      }
+    ],
+    "groups": [
+      {
+        "name": "tool-info-filter",
+        "members": ["--quiet", "--verbose"],
+        "required": false,
+        "multiple": false
+      },
+      {
+        "name": "at-least-one",
+        "members": ["--quiet", "--no-config"],
+        "required": true,
+        "multiple": true
+      }
+    ],
+    "aliases": [],
+    "examples": []
+  }
+}

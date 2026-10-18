@@ -1,0 +1,86 @@
+name: mise
+description: Dev tools, env vars, and tasks in one CLI
+flags:
+    --deprecated-flag: 'An old way of doing things (deprecated: use --new-flag instead)'
+    --force-poll?&: Poll for changes instead of using native file watching
+    --legacy&: An old flag
+    --no-config: Do not load any config files
+    --no-truncate&: Truncate the output
+    --old: An old flag
+    --on-busy-update=:
+        description: What to do when a tool is busy
+        default: do-nothing
+    --output?: How task output is displayed
+    --poll?: Poll for changes instead of using native file watching
+    -t, --truncate&: Truncate the output
+persistentflags:
+    -C, --cd=: Run as if mise were started in DIR
+    -E, --env=*: Load the mise.<ENV>.toml config files
+    -P, --profile=*: Set the profile
+    -h, --help: Print help
+    -q, --quiet: Suppress non-error messages
+    -v, --verbose*: Show extra output
+exclusiveflags:
+    - - quiet
+      - verbose
+    - - profile
+      - env
+completion:
+    flag:
+        cd:
+            - $directories
+        on-busy-update:
+            - wait
+            - warn
+            - silent
+            - do-nothing
+    positional:
+        - - $sh(mise tasks ls --complete)
+commands:
+    - name: install
+      aliases:
+        - i
+      description: Install a tool version
+      flags:
+        -f, --force: Force the installation
+      documentation:
+        command: |-
+            Install a tool version
+
+            Installs a tool version to ~/.local/share/mise/installs
+        positionalany: Tools to install
+      examples:
+        mise install node@24: Install node 24
+    - name: use
+      description: Use a tool version
+      group: Tool management
+    - name: activate
+      description: Print the script to activate mise
+      flags:
+        -s, --shell=: Shell type to generate the script for
+      completion:
+        flag:
+            shell:
+                - bash
+                - elvish
+                - fish
+                - nu
+                - xonsh
+                - zsh
+                - pwsh
+        positional:
+            - - bash
+              - fish
+              - zsh
+              - pwsh
+              - powershell
+      documentation:
+        positional:
+            - Shell type to generate the script for
+    - name: hidden-cmd
+      description: A hidden command
+      hidden: true
+documentation:
+    positional:
+        - Task to run
+    positionalany: Task arguments
