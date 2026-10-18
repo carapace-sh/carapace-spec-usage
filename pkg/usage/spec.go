@@ -333,8 +333,18 @@ func (c *converter) convertArgs(cmd *command.Command, sc *SpecCommand) {
 	}
 
 	if len(positional) > 0 {
-		cmd.Completion.Positional = positional
-		cmd.Documentation.Positional = positionalDoc
+		// Trailing positionals without a completion carry no information and
+		// would only add noise. Earlier empty entries are kept because the list
+		// is index-aligned: dropping one would shift later completions onto the
+		// wrong argument.
+		end := len(positional)
+		for end > 0 && len(positional[end-1]) == 0 {
+			end--
+		}
+		if end > 0 {
+			cmd.Completion.Positional = positional[:end]
+			cmd.Documentation.Positional = positionalDoc[:end]
+		}
 	}
 }
 

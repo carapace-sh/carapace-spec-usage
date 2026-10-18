@@ -80,6 +80,19 @@ commands:
     - name: hidden-cmd
       description: A hidden command
       hidden: true
+    - name: mixed
+      description: Command with a leading and a trailing argument without completion
+      completion:
+        positional:
+            - []
+            - - one
+              - two
+      documentation:
+        positional:
+            - No completion
+            - Has choices
+    - name: no-completion
+      description: Command whose positionals have no completion
 documentation:
     positional:
         - Task to run

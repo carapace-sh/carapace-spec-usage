@@ -104,6 +104,55 @@
         "args": [],
         "flags": [],
         "aliases": []
+      },
+      "mixed": {
+        "name": "mixed",
+        "help": "Command with a leading and a trailing argument without completion",
+        "full_cmd": ["mixed"],
+        "subcommands": {},
+        "args": [
+          {
+            "name": "FIRST",
+            "help": "No completion",
+            "required": false,
+            "hide": false
+          },
+          {
+            "name": "SECOND",
+            "help": "Has choices",
+            "required": false,
+            "hide": false,
+            "choices": {"choices": ["one", "two"]}
+          },
+          {
+            "name": "THIRD",
+            "help": "No completion",
+            "required": false,
+            "hide": false
+          }
+        ],
+        "flags": [],
+        "aliases": []
+      },
+      "no-completion": {
+        "name": "no-completion",
+        "help": "Command whose positionals have no completion",
+        "full_cmd": ["no-completion"],
+        "subcommands": {},
+        "args": [
+          {
+            "name": "A",
+            "required": false,
+            "hide": false
+          },
+          {
+            "name": "B",
+            "required": false,
+            "hide": false
+          }
+        ],
+        "flags": [],
+        "aliases": []
       }
     },
     "args": [
